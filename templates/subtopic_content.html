@@ -1,0 +1,65 @@
+{% extends 'base.html' %} {% block title %}Подтема: {{ subtopic }}{% endblock %}
+{% block body %}
+<div class="container my-5">
+  <h1 class="mb-4">Подтема: <strong>{{ subtopic }}</strong></h1>
+
+  <h3>📘 Новая лексика</h3>
+  <ul>
+    {% for item in content.vocabulary %}
+    <li>
+      <strong>{{ item.word }}</strong> — {{ item.translation }}<br />
+      <em>Пример:</em> {{ item.example }}
+    </li>
+    {% endfor %}
+  </ul>
+
+  {% if content.grammar %}
+  <h3>📏 Грамматическое правило</h3>
+  <p><strong>Правило:</strong> {{ content.grammar.rule }}</p>
+  <p><strong>Пример:</strong> {{ content.grammar.example }}</p>
+  {% else %}
+  <p class="text-muted">Грамматическая часть пока не загружена.</p>
+  {% endif %}
+
+  <h3>📖 Контекстный текст</h3>
+  <div class="border p-3 bg-light">{{ content.reading_text }}</div>
+
+  <h3>🎯 Интерактивное задание</h3>
+  <p>
+    <strong>Инструкция:</strong> {{ content.interactive_task.instructions }}
+  </p>
+  <div class="border p-3">{{ content.interactive_task.content }}</div>
+
+  <h3>🛠 Ошибки, учтённые в этой подтеме</h3>
+  <ul>
+    {% for error in content.reinforced_errors %}
+    <li>{{ error }}</li>
+    {% endfor %}
+  </ul>
+
+  <a href="/course/{{ course_id }}" class="btn btn-secondary mt-4"
+    >⬅ Назад к курсу</a
+  >
+  <h3>🧪 Мини-тест</h3>
+  <form method="post" action="/submit_subtopic_test/{{ subtopic_id }}">
+    {% for q in content.mini_test %} {% set q_index = loop.index0 %}
+    <div class="mb-3">
+      <p><strong>{{ loop.index }}. {{ q.question_text }}</strong></p>
+      {% for opt in q.options %}
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="q{{ q_index }}"
+          value="{{ opt }}"
+          required
+        />
+        <label class="form-check-label">{{ opt }}</label>
+      </div>
+      {% endfor %}
+    </div>
+    {% endfor %}
+    <button type="submit" class="btn btn-success mt-3">Отправить ответы</button>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'base.html' %} {% block title %}Мои курсы{% endblock %} {% block body
+%}
+<div class="container my-5">
+  <h1>🎓 Ваши курсы</h1>
+  <div class="row mt-4">
+    {% for course in courses %}
+    <div class="col-md-4">
+      <div class="card mb-3 shadow">
+        <div class="card-body">
+          <h5>{{ course.topic }}</h5>
+          <p>Уровень: {{ course.initial_level }}</p>
+          {% if course.is_final_test_passed %}
+          <span class="badge bg-success">✅ Завершён</span>
+          {% else %}
+          <span class="badge bg-warning text-dark">🕓 В процессе</span>
+          {% endif %}
+          <a href="/course/{{ course.id }}" class="btn btn-primary mt-2"
+            >Открыть</a
+          >
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

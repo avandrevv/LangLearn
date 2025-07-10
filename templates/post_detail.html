@@ -1,0 +1,19 @@
+{% extends 'base.html' %} {% block title %} {{ article.title }} {% endblock %}
+{%block body %}
+<div class="container mt-5">
+  <h1>{{ article.title }}</h1>
+  <div class="alert alert-info">
+    <div style="white-space: pre-wrap">{{ article.text }}</div>
+    <div style="white-space: pre-wrap">{{ article.intro }}</div>
+    <div style="white-space: pre-wrap"><b>{{ article.date.date() }}</b></div>
+
+    {% if user and user.is_admin %}
+    <a href="/posts/{{ article.id }}/delete" class="btn btn-danger">Удалить</a>
+    <a href="/posts/{{ article.id }}/update" class="btn btn-success"
+      >Редактировать</a
+    >
+
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

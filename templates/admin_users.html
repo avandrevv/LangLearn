@@ -1,0 +1,83 @@
+{% extends 'base.html' %} {% block title %} Страница про нас {% endblock %} {%
+block body %}
+
+<div class="admin_body container">
+  <h1>User Management</h1>
+  <table class="admin_table">
+    <thead>
+      <tr>
+        <th class="admin_th">Username</th>
+        <th class="admin_th">Admin</th>
+        <th class="admin_th">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for user in users %}
+      <tr>
+        <td class="admin_td">{{ user.username }}</td>
+        <td class="admin_td">{{ "✔" if user.is_admin else "" }}</td>
+        <td class="admin_td">
+          {% if not user.is_admin %}
+          <button
+            class="admin_button"
+            onclick="deleteUser('{{ user.username }}')"
+          >
+            Delete
+          </button>
+          {% else %}
+          <em>Protected</em>
+          {% endif %}
+        </td>
+      </tr>
+
+      {% endfor %}
+    </tbody>
+  </table>
+  <style>
+    .admin_body {
+      font-family: sans-serif;
+      padding: 20px;
+    }
+    .admin_table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    .admin_th,
+    .admin_td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: left;
+    }
+    .admin_th {
+      background-color: #eee;
+    }
+    .admin_button {
+      background-color: crimson;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+    .admin_button:hover {
+      background-color: darkred;
+    }
+  </style>
+  <script>
+    async function deleteUser(username) {
+      if (!confirm(`Delete user '${username}'?`)) return;
+
+      const response = await fetch(`/delete-user/${username}`, {
+        method: "DELETE",
+      });
+      if (response.ok) {
+        alert(`User '${username}' deleted.`);
+        location.reload();
+      } else {
+        const data = await response.json();
+        alert("Error: " + data.detail);
+      }
+    }
+  </script>
+</div>
+{% endblock %}

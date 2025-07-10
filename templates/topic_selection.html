@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Select Your Learning Topic</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f5f5f5;
+      }
+      h1 {
+        color: #2c3e50;
+        text-align: center;
+      }
+      .topic-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        justify-content: center;
+      }
+      .topic-card {
+        box-sizing: border-box;
+        background: white;
+        border-radius: 8px;
+        padding: 20px;
+        width: 200px;
+        height: 60px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        transition: transform 0.2s;
+        text-align: center;
+      }
+      .topic-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+      .topic-card.selected {
+        border: 3px solid #3498db;
+      }
+      .custom-topic {
+        margin-top: 30px;
+        text-align: center;
+      }
+      .custom-topic input[type="text"] {
+        padding: 10px;
+        width: 300px;
+        border-radius: 4px;
+        border: 1px solid #ddd;
+      }
+      button {
+        display: block;
+        margin: 30px auto 0;
+        background-color: #3498db;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+      }
+      button:hover {
+        background-color: #2980b9;
+      }
+      .custom-topic input[type="text"] {
+        height: 42px;
+        box-sizing: border-box;
+      }
+      .custom-topic {
+        min-height: 80px; /* или в px, если нужно точно */
+      }
+      .custom-topic {
+        transition: all 0.3s ease;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Welcome to Your Language Learning Journey!</h1>
+    <p style="text-align: center">
+      Please select a topic you're interested in learning:
+    </p>
+
+    <form action="/start_test" method="post">
+      <!-- скрытое поле для отправки названия темы -->
+      <input type="hidden" id="topicInput" name="topic" required />
+
+      <div class="topic-container">
+        <div
+          class="topic-card"
+          onclick="selectTopic(event, 'Business English')"
+        >
+          Business English
+        </div>
+        <div class="topic-card" onclick="selectTopic(event, 'Technology')">
+          Technology
+        </div>
+        <div class="topic-card" onclick="selectTopic(event, 'Science')">
+          Science
+        </div>
+        <div class="topic-card" onclick="selectTopic(event, 'Travel')">
+          Travel
+        </div>
+        <div class="topic-card" onclick="selectTopic(event, 'Nature')">
+          Nature
+        </div>
+        <div class="topic-card" onclick="selectTopic(event, 'Sports')">
+          Sports
+        </div>
+      </div>
+
+      <div class="custom-topic">
+        <p>Or enter your own topic:</p>
+        <input
+          type="text"
+          id="customTopic"
+          placeholder="Enter your topic of interest"
+          oninput="handleCustomInput(event)"
+        />
+      </div>
+
+      <button type="submit">Start Level Test</button>
+    </form>
+
+    <script>
+      function selectTopic(evt, topic) {
+        // Заполняем скрытое поле и подсвечиваем карточку
+        document.getElementById("topicInput").value = topic;
+        document
+          .querySelectorAll(".topic-card")
+          .forEach((card) => card.classList.remove("selected"));
+        evt.currentTarget.classList.add("selected");
+        // Очищаем ввод своей темы
+        document.getElementById("customTopic").value = "";
+      }
+
+      function handleCustomInput(evt) {
+        const val = evt.target.value.trim();
+        // Снимаем подсветку у всех карточек
+        document
+          .querySelectorAll(".topic-card")
+          .forEach((card) => card.classList.remove("selected"));
+        // Если что-то введено, записываем в скрытое поле
+        document.getElementById("topicInput").value = val;
+      }
+    </script>
+  </body>
+</html>

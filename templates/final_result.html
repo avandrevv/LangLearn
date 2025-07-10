@@ -1,0 +1,30 @@
+{% extends 'base.html' %} {% block title %}Результаты финального теста{%
+endblock %} {% block body %}
+<div class="container my-5">
+  <h1 class="mb-4">🎓 Итоги финального теста</h1>
+  <h4>Ваш результат: <span class="badge bg-info">{{ result.score }}</span></h4>
+
+  {% if result.mistakes | length == 0 %}
+  <div class="alert alert-success mt-4">Отлично! Все ответы верны 🎉</div>
+  {% else %}
+  <div class="alert alert-warning mt-4">
+    Вы допустили ошибки:
+    <ul class="mt-2">
+      {% for err in result.mistakes %}
+      <li>
+        <strong>{{ err.question_num }}.</strong> {{ err.question_text }}<br />
+        ❌ Ваш ответ: <em>{{ err.given_answer }}</em><br />
+        ✅ Правильный ответ: <em>{{ err.correct_answer }}</em>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+
+  <div class="text-center mt-5">
+    <a href="/course/{{ course.id }}" class="btn btn-primary"
+      >🔙 Вернуться к курсу</a
+    >
+  </div>
+</div>
+{% endblock %}

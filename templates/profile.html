@@ -1,0 +1,26 @@
+{% extends 'base.html' %} {% block title %}Профиль{% endblock %} {% block body
+%}
+<div class="container my-5">
+  <h1 class="mb-4">👤 Ваш профиль</h1>
+  <ul class="list-group">
+    <li class="list-group-item">
+      <strong>Имя пользователя:</strong> {{ user.username }}
+    </li>
+    <li class="list-group-item"><strong>ID:</strong> {{ user.id }}</li>
+    <li class="list-group-item">
+      <strong>Тип аккаунта:</strong>
+      {% if user.is_admin %}
+      <span class="badge bg-danger">Админ</span>
+      {% else %}
+      <span class="badge bg-secondary">Пользователь</span>
+      {% endif %}
+    </li>
+    <li class="list-group-item">
+      <strong>Кол-во курсов:</strong> {{ user.courses | length }}
+    </li>
+    <li class="list-group-item">
+      <strong>Пройдено тестов:</strong> {{ user.tests | length }}
+    </li>
+  </ul>
+</div>
+{% endblock %}

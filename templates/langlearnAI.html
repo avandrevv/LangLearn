@@ -1,0 +1,27 @@
+{% extends 'base.html' %} {% block title %} LangLearn AI {% endblock %} {% block
+body %}
+<div id="chat-container">
+  <h1>LangLearn AI</h1>
+
+  <form
+    hx-post="/get_response"
+    hx-target="#response-container"
+    hx-indicator=".loading-indicator"
+  >
+    <textarea
+      name="user_message"
+      rows="4"
+      placeholder="Введите ваш запрос..."
+      required
+    ></textarea>
+    <button type="submit">Отправить</button>
+    <div class="loading-indicator htmx-indicator">
+      <p>Генерация ответа...</p>
+    </div>
+  </form>
+
+  <div id="response-container" class="ai-response"></div>
+</div>
+
+<script src="https://unpkg.com/htmx.org@1.9.6"></script>
+{% endblock %}
